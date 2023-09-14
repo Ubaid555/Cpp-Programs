@@ -1,0 +1,308 @@
+#include<iostream>
+#define MAX 10
+using namespace std;
+void getData(int A[], int& N)
+{
+cout << "\n\t\t\tHow many number of elements you want to add (1-10) : ";
+cin >> N;
+if (N > 0 && N <= MAX)
+{
+for (int i = 0; i < N; i++)
+{
+cout << "\n\t\tEnter element number " << i + 1 << " = ";
+cin >> A[i];
+}
+cout << "\n\t\tData Successfully Added\n\n";
+}
+else
+{
+cout << "\n\t\tInvalid entry\n\n" << endl;
+}
+system("pause");
+}
+void displayData(int A[], int& N) {
+if (N > 0 && N <= MAX)
+{
+for (int i = 0; i < N; i++)
+{
+cout << "\n\t\tElement number " << i + 1 << " = ";
+cout << A[i] << endl;
+}
+}
+else
+{
+cout << "\n\t\t !! No Saved Data Yet !!\n ";
+}
+}
+void insertData(int A[], int& N)
+{
+int pos, data;
+cout << "\n\t\tIn which position you want to add data (1-10) : ";
+cin >> pos;
+if (N >= 0 && N < MAX)
+{
+//InsertAtStart
+if (pos >= 1)
+{
+cout << "\n\t\tEnter data you want to add : ";
+cin >> data;
+for (int i = N; i >= (pos - 1); i--)
+{
+A[i + 1] = A[i];
+}
+N = N++;
+A[pos - 1] = data;
+cout << "\n\t\tData Successfully Added\n";
+}
+/*InsertAtMid*/
+else if (pos <= N)
+{
+cout << "\n\t\tEnter data you want to add : ";
+cin >> data;
+for (int i = N; i >= (pos - 1); i--)
+{
+A[i + 1] = A[i];
+}
+N = N + 1;
+A[pos - 1] = data;
+cout << "\n\t\tData Successfully Added\n";
+}
+//InsertAtEnd
+else
+{
+cout << "\n\t\tEnter data you want to add : ";
+cin >> data;
+N = N + 1;
+A[pos - 1] = data;
+cout << "\n\t\tData Successfully Added\n";
+}
+}
+else
+{
+cout << "\n\t\tArray limit exceeded\n " << endl;
+}
+}
+void searchData(int A[], int& N) {
+int check = 0, choice, sData , sPos ;
+cout << "\n\t\tHow you want to search Data\n\n ";
+cout << "\t\t Press 1 or 2\n\n ";
+cout << "\t\t1. Search by position\n\n";
+cout << "\t\t2. Search by data\n\n";
+cout << "\n\t\t Enter Your Choice : ";
+cin >> choice;
+switch (choice)
+{
+case 1:
+//Search by position
+cout << "\n\t\tEnter the position you want to view data : ";
+cin >> sPos;
+for (int i = 0; i <= N; i++)
+{
+if (i == sPos)
+{
+sData = A[i - 1];
+cout << "\n\t\tThe required data is = " << sData <<
+endl;
+check = 1;
+break;
+}
+}
+if (check == 0)
+{
+cout << "\n\t\tData not found " << endl;
+}
+break;
+case 2:
+//Search by Data
+cout << "\n\t\tEnter data you want to view position : ";
+cin >> sData;
+for (int i = 0; i <= N; i++)
+{
+if (A[i] == sData)
+{
+sPos = i + 1;
+cout << "\n\t\tData found at position No. : " << sPos 
+<< endl;
+check = 1;
+}
+}
+if (check == 0)
+{
+cout << "\n\t\tData not found " << endl;
+}
+break;
+}
+}
+void deleteData(int A[], int& N) {
+int delPos, delData, choice, count = 0;
+cout << "\n\t\tHow you want to delete Data\n\n ";
+cout << "\t\t Press 1 or 2\n\n ";
+cout << "\t\t1. Delete by position\n\n";
+cout << "\t\t2. Delete by data\n\n";
+cout << "\n\t\t Enter Your Choice : ";
+cin >> choice;
+switch (choice)
+{
+case 1:
+cout << "\n\t\tEnter the position you want to delete data : ";
+cin >> delPos;
+if (N > 0 && N < MAX)
+{
+if (delPos > 0 && delPos <= N)
+{
+for (int i = (delPos - 1); i < N; i++)
+{
+A[i] = A[i + 1];
+}
+cout << "\n\t\tData successfully deleted " << endl;
+N = N--;
+break;
+}
+else if (delPos > N && delPos <= MAX)
+{
+cout << "\n\t\tNo Data at this position\n";
+break;
+}
+else
+{
+cout << "\n\t\tInvalid position to delete " << endl;
+}
+}
+else
+{
+cout << "\n\t\t !! No Data currently add !!\n";
+}
+break;
+case 2:
+cout << "\n\t\tEnter the data you want to delete ";
+cin >> delData;
+for (int i = 0; i < N; i++)
+{
+if (A[i] == delData)
+{
+for (int k = i; k < N; k++)
+{
+A[k] = A[k + 1];
+}
+count = 1;
+cout << "\n\t\tData successfully deleted " << endl;
+N = N--;
+break;
+}
+}
+if (count == 0)
+{
+cout << "\n\t\tNo Data Found" << endl;
+}
+break;
+}
+}
+void get_Max_Min(int A[], int& N)
+{
+int choice = 0, maxloc = 1, minloc = 1, max = A[0], min = A[0];
+system("cls");
+cout << "\n\t\tWhat you want to find\n\n ";
+cout << "\t\t Press 1 or 2\n\n ";
+cout << "\t\t1. Get Maximum number\n\n";
+cout << "\t\t2. Get Minimum number\n\n";
+cout << "\n\t\t Enter Your Choice : ";
+cin >> choice;
+switch (choice)
+{
+case 1:
+for (int i = 1; i <= N; i++)
+{
+if (A[i] > max)
+{
+max = A[i];
+maxloc = i + 1;
+}
+}
+system("cls");
+cout << "\n\t\t Maximum number is : " << max << endl;
+cout << "\n\t\t The location of max number is : " << maxloc << endl;
+break;
+case 2:
+for (int i = 1; i < N; i++)
+{
+if (A[i] < min)
+{
+min = A[i];
+minloc = i + 1;
+}
+}
+system("cls");
+cout << "\n\t\t Minimum number is : " << min << endl;
+cout << "\n\t\t The location of min number is : " << minloc << endl;
+break;
+}
+}
+void sortData(int A[], int& N) {
+exit;
+}
+void mainmenu(int A[], int& N) {
+int choice = 0;
+while (choice != 8)
+{
+system("cls");
+cout << "\n\t\t\t\t\t----- Welcome to MainMenu -----\n" << endl;
+cout << "\t\t\t\t--- Choose the function you want to perform ---\n"
+<< endl;
+cout << "\t\t1. Add Data\n" << endl;
+cout << "\t\t2. Display Data\n" << endl;
+cout << "\t\t3. Insert a new Data\n" << endl;
+cout << "\t\t4. Search Particular Data\n" << endl;
+cout << "\t\t5. Delete Particular Data\n" << endl;
+cout << "\t\t6. Get Maximum & Minimum number\n" << endl;
+cout << "\t\t7. Sort Data\n" << endl;
+cout << "\t\t8. Exit \n" << endl;
+cout << "\n\t\t Enter Your Choice : ";
+cin >> choice;
+switch (choice)
+{
+case 1:
+system("cls");
+getData(A, N);
+break;
+case 2:
+system("cls");
+displayData(A, N);
+system("pause");
+break;
+case 3:
+system("cls");
+insertData(A, N);
+system("pause");
+break;
+case 4:
+system("cls");
+searchData(A, N);
+system("pause");
+break;
+case 5:
+system("cls");
+deleteData(A, N);
+system("pause");
+break;
+case 6:
+system("cls");
+get_Max_Min(A, N);
+system("pause");
+break;
+case 7:
+system("cls");
+sortData(A, N);
+break;
+case 8:
+system("cls");
+exit;
+break;
+}
+}
+}
+int main()
+{
+int A[MAX],N=0;
+mainmenu(A,N);
+return 0;
+}
