@@ -1,0 +1,360 @@
+#include<iostream>
+#define MAX 5
+using namespace std;
+
+class Deque {
+private:
+	int data, count = 0, choice = 0;
+	Deque* front = NULL;
+	Deque* rear = NULL;
+	Deque* lptr = NULL;
+	Deque* rptr = NULL;
+public:
+	bool isEmpty();
+	bool isFull();
+	void pushFront();
+	void pushRear();
+	void popFront();
+	void popRear();
+	void display();
+	void mainMenu();
+
+};
+
+int main() {
+	Deque d;
+	d.mainMenu();
+	return 0;
+}
+
+bool Deque::isEmpty()
+{
+	if (front == NULL)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+bool Deque::isFull()
+{
+	if (count == MAX)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+void Deque::pushFront()
+{
+	choice = 0;
+	while (choice != 2)
+	{
+		if (isFull())
+		{
+			cout << "\n\t\t\t\tQueue Overflow\n\t\t\t\t";
+			system("pause");
+			break;
+		}
+		else
+		{
+			Deque* newQueue = new Deque;
+			cout << "\n\t\t\tEnter Data :: ";
+			cin >> newQueue->data;
+			if (isEmpty())
+			{
+				front = newQueue;
+				rear = newQueue;
+				count++;
+			}
+			else
+			{
+				front->lptr = newQueue;
+				newQueue->rptr = front;
+				front = newQueue;
+				count++;
+			}
+			while (choice != 2)
+			{
+				system("cls");
+				cout << "\n\t\t\t\tEnqueue Successfully";
+				if (count == MAX)
+				{
+					cout << "\n\t\t\t\tNumber of Max items reached\n\n";
+					system("pause");
+					choice = 2;
+					break;
+				}
+				cout << "\n\n\t\t\t\t Press 1 . Enqueue Again ";
+				cout << "\n\n\t\t\t\t Press 2 . Return Back ";
+				cout << "\n\n\t\t\t\t  Enter Your Choice :: ";
+				cin >> choice;
+				if (choice == 1)
+				{
+					pushFront();
+				}
+
+			}
+
+		}
+	}
+}
+
+void Deque::pushRear()
+{
+	choice = 0;
+	while (choice != 2)
+	{
+		if (isFull())
+		{
+			cout << "\n\t\t\t\tQueue Overflow\n\t\t\t\t";
+			system("pause");
+			break;
+		}
+		else
+		{
+			Deque* newQueue = new Deque;
+			cout << "\n\t\t\tEnter Data :: ";
+			cin >> newQueue->data;
+			if (isEmpty())
+			{
+				count++;
+				front = newQueue;
+				rear = newQueue;
+			}
+			else
+			{
+				count++;
+				rear->rptr = newQueue;
+				newQueue->lptr = rear;
+				rear = newQueue;
+			}
+			while (choice != 2)
+			{
+				system("cls");
+				cout << "\n\t\t\t\tEnqueue Successfully";
+				if (count == MAX)
+				{
+					cout << "\n\t\t\t\tNumber of Max items reached\n\n";
+					system("pause");
+					choice = 2;
+					break;
+				}
+				cout << "\n\n\t\t\t\t Press 1 . Enqueue Again ";
+				cout << "\n\n\t\t\t\t Press 2 . Return Back ";
+				cout << "\n\n\t\t\t\t  Enter Your Choice :: ";
+				cin >> choice;
+				if (choice == 1)
+				{
+					pushRear();
+				}
+			}
+
+		}
+	}
+}
+
+void Deque::popFront()
+{
+	choice = 0;
+	while (choice != 2)
+	{
+		if (isEmpty())
+		{
+			cout << "\n\t\t\t\tQueue underflow\n\t\t\t\t";
+			system("pause");
+			break;
+		}
+		else
+		{
+			if (rear == front)
+			{
+				front = rear = NULL;
+			}
+			else
+			{
+				front = front->rptr;
+				front->lptr = NULL;
+			}
+			count--;
+			while (choice != 2)
+			{
+				system("cls");
+				cout << "\n\n\t\t\t\tDequeue Successfully";
+				if (count == 0)
+				{
+					choice = 2;
+					break;
+				}
+				cout << "\n\n\t\t\t\tItems remaining is ---> " << count;
+				cout << "\n\n\t\t\t\t Press 1 . Dequeue Again From Front ";
+				cout << "\n\n\t\t\t\t Press 2 . Return Back ";
+				cout << "\n\n\t\t\t\t  Enter Your Choice :: ";
+				cin >> choice;
+				if (choice == 1)
+				{
+					popFront();
+				}
+			}
+
+		}
+	}
+}
+
+void Deque::popRear()
+{
+	choice = 0;
+	while (choice != 2)
+	{
+		if (isEmpty())
+		{
+			cout << "\n\t\t\t\tQueue underflow\n\t\t\t\t";
+			system("pause");
+			break;
+		}
+		else
+		{
+			if (rear == front)
+			{
+				front = rear = NULL;
+			}
+			else
+			{
+				rear = rear->lptr;
+				rear->rptr = NULL;
+			}
+			count--;
+			while (choice != 2)
+			{
+				system("cls");
+				cout << "\n\n\t\t\t\tDequeue Successfully";
+				if (count == 0)
+				{
+					choice = 2;
+					break;
+				}
+				cout << "\n\n\t\t\t\tItems remaining is ---> " << count;
+				cout << "\n\n\t\t\t\t Press 1 . Dequeue Again From Front ";
+				cout << "\n\n\t\t\t\t Press 2 . Return Back ";
+				cout << "\n\n\t\t\t\t  Enter Your Choice :: ";
+				cin >> choice;
+				if (choice == 1)
+				{
+					popRear();
+				}
+			}
+		}
+
+	}
+}
+
+void Deque::display()
+{
+	if (isEmpty())
+	{
+		cout << "\n\t\t\t\tQueue underflow\n\t\t\t\t";
+	}
+	else
+	{
+		Deque* temp = front;
+		cout << "\n\n Front ";
+		while (temp != NULL)
+		{
+			cout << " ---> " << temp->data;
+			temp = temp->rptr;
+		}
+		cout << " <--- Rear\n\n";
+	}
+	system("pause");
+}
+
+void Deque::mainMenu()
+{
+	int check = 0;
+	while (check != 4)
+	{
+		system("cls");
+		cout << "\n\t\t\t\t\t\tMainmenu\n\t\t\t\t\t\t";
+		cout << "\n\t\t\t\t1.Enqueue\n\t\t\t\t";
+		cout << "\n\t\t\t\t2.Dequeue\n\t\t\t\t";
+		cout << "\n\t\t\t\t3.Display\n\t\t\t\t";
+		cout << "\n\t\t\t\t4.Exit\n\t\t\t\t";
+		cout << "\n\t\t\t\t Enter Your Choice :: ";
+		cin >> check;
+		switch (check)
+		{
+		case 1:
+			if (isFull())
+			{
+				cout << "\n\t\t\t\tQueue Overflow\n\t\t\t\t";
+				system("pause");
+			}
+			else
+			{
+				while (choice != 4)
+				{
+					system("cls");
+					cout << "\n\t\t\t\t\t\tEnQueue\n\t\t\t\t\t\t";
+					cout << "\n\t\t\t\t1.From Rear End\n\t\t\t\t";
+					cout << "\n\t\t\t\t2.From Front End\n\t\t\t\t";
+					cout << "\n\t\t\t\t3.Display Queue\n\t\t\t\t";
+					cout << "\n\t\t\t\t4.Back to Mainmenu\n\t\t\t\t";
+					cout << "\n\t\t\t\t Enter Your Choice :: ";
+					cin >> choice;
+					switch (choice)
+					{
+					case 1:
+						pushRear();
+						break;
+					case 2:
+						pushFront();
+						break;
+					case 3:
+						display();
+						break;
+					}
+				}
+			}
+			break;
+		case 2:
+			if (isEmpty())
+			{
+				cout << "\n\t\t\t\tQueue underflow\n\t\t\t\t";
+				system("pause");
+			}
+			else
+			{
+				system("cls");
+				cout << "\n\t\t\t\t\t\tDeQueue\n\t\t\t\t\t\t";
+				cout << "\n\t\t\t\t1.From Front End\n\t\t\t\t";
+				cout << "\n\t\t\t\t2.From Rear End\n\t\t\t\t";
+				cout << "\n\t\t\t\t3.Display Queue\n\t\t\t\t";
+				cout << "\n\t\t\t\t4.Back to Mainmenu\n\t\t\t\t";
+				cout << "\n\t\t\t\t Enter Your Choice :: ";
+				cin >> choice;
+				switch (choice)
+				{
+				case 1:
+					popFront();
+					break;
+				case 2:
+					popRear();
+					break;
+				case 3:
+					display();
+					break;
+				}
+			}
+			break;
+		case 3:
+			display();
+			break;
+		}
+	}
+}
