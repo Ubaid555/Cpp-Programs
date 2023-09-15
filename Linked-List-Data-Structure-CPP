@@ -1,0 +1,393 @@
+#include<iostream>
+using namespace std;
+
+class Node {
+private:
+	int data;
+	Node* start = NULL;
+	Node * end, * lptr, * rptr;
+public:
+	void create();
+	void display(int&, int&);
+	void insert(int&);
+	void searchByData();
+	void deleteByData(int&);
+	void deleteByPos(int&);
+	void sortData(int&);
+	void mainmenu();
+};
+
+int main() {
+	Node linkedList;
+	linkedList.mainmenu();
+	return 0;
+}
+
+void Node::create()
+{
+	Node* newNode = new Node();
+	newNode->lptr = newNode->rptr = NULL;
+	cin >> newNode->data;
+	if (start == NULL)
+	{
+		start = newNode;
+		end = newNode;
+	}
+	else
+	{
+		Node* temp = start;
+		while (temp->rptr != NULL)
+		{
+			temp = temp->rptr;
+		}
+		newNode->lptr = temp;
+		temp->rptr = newNode;
+		end = newNode;
+	}
+}
+
+void Node::display(int& check, int& length)
+{
+	int i = 1;
+	if (start == NULL)
+	{
+		cout << "\n\t\t No Data Saved Yet \n\n";
+	}
+	else if (check == 1)
+	{
+		Node* temp = start;
+		for (int i = 1; i <= length; i++)
+		{
+			cout << "\n\n\t\t Element No " << i << " is = " << temp->data;
+			temp = temp->rptr;
+		}
+	}
+	else
+	{
+		Node* temp = end;
+		for (int i = 1; i <= length; i++)
+		{
+			cout << "\n\n\t\t Element No " << i << " is = " << temp->data;
+			temp = temp->lptr;
+		}
+	}
+	cout << "\n\n";
+}
+
+void Node::insert(int& length)
+{
+	int pos;
+	cout << "\n\t\t In Which Position You Want to Insert Data ::  ";
+	cin >> pos;
+	if (pos < 0)
+	{
+		cout << "\n\t\t Number Must be greater then 0 \n\n ";
+		system("pause");
+		insert(length);
+	}
+	else
+	{
+		Node* newNode = new Node;
+		cout << "\n\t\t Enter Data to Insert ::  ";
+		cin >> newNode->data;
+		if (start == NULL)
+		{
+			start = newNode;
+			end = newNode;
+		}
+		else if (pos == 1)
+		{
+			start->lptr = newNode;
+			newNode->rptr = start;
+			start = newNode;
+		}
+		else
+		{
+			Node* temp = start;
+			int choice = 2;
+			while (choice != pos)
+			{
+				if (temp->rptr == NULL)
+				{
+					break;
+				}
+				temp = temp->rptr;
+				choice++;
+			}
+			if (temp->rptr == NULL)
+			{
+				newNode->lptr = temp;
+				temp->rptr = newNode;
+				end = newNode;
+			}
+			else
+			{
+				newNode->rptr = temp->rptr;
+				temp->rptr->lptr = newNode;
+				newNode->lptr = temp;
+				temp->rptr = newNode;
+			}
+		}
+		length++;
+	}
+}
+
+void Node::searchByData()
+{
+	cout << "\n\t\t Enter Data you want to Search :: ";
+	cin >> data;
+	if (start == NULL)
+	{
+		cout << "\n\t\t!! No Data Saved !! \n\n ";
+	}
+	else
+	{
+		int check = 0, pos = 1;
+		Node* temp = start;
+		while (temp != NULL)
+		{
+			if (temp->data == data)
+			{
+				cout << "\n\t\t Data Found at Position No :: " << pos << "\n\n";
+				check = 1;
+				break;
+			}
+			if (temp->rptr == NULL)
+			{
+				break;
+			}
+			temp = temp->rptr;
+			pos++;
+		}
+		if (check == 0)
+		{
+			cout << "\n\t\t Data Not Found \n\n";
+		}
+	}
+}
+
+void Node::deleteByPos(int& length)
+{
+	int pos;
+	cout << "\n\t\Enter the position you want to delete Data :: ";
+	cin >> pos;
+	Node* temp = start;
+	if (start == NULL)
+	{
+		cout << "\n\t\t!! No Data Saved !! \n\n ";
+	}
+	else {
+		if (pos > 0 && pos <= length)
+		{
+			if (pos == 1)
+			{
+				start = start->rptr;
+				start->lptr = NULL;
+			}
+			else if (pos == length)
+			{
+				end = end->lptr;
+				end->rptr = NULL;
+			}
+			else
+			{
+				for (int i = 2; i < pos - 1; i++)
+				{
+					temp = temp->rptr;
+				}
+				Node* temp1 = temp->rptr->rptr;
+				temp1->lptr = temp->rptr;
+				temp->rptr = temp1->lptr;
+			}
+			cout << "\n\t\t Data Successfully Deleted \n\n";
+			length--;
+
+		}
+		else
+		{
+			cout << "\n\t\t Invalid Position to Delete \n\n";
+		}
+	}
+}
+
+void Node::deleteByData(int& length)
+{
+	int check = 0;
+	cout << "\n\t\t Enter Data you want to Delete \n\n ";
+	cin >> data;
+	Node* temp = start;
+	if (start == NULL)
+	{
+		cout << "\n\t\t!! No Data Saved !! \n\n ";
+	}
+	else {
+		if (start->data == data)
+		{
+			start = start->rptr;
+			start->lptr = NULL;
+		}
+		else if (end->data == data)
+		{
+			end = end->lptr;
+			end->rptr = NULL;
+		}
+		else
+		{
+			while (temp->rptr != NULL)
+			{
+				if (temp->rptr->data == data)
+				{
+					Node* temp1 = temp->rptr->rptr;
+					temp1->lptr = temp;
+					temp->rptr = temp1;
+					break;
+				}
+				if (temp->rptr->rptr == NULL)
+				{
+					check = 1;
+					break;
+				}
+				temp = temp->rptr;
+			}
+		}
+		if (check == 1)
+		{
+			cout << "\n\t\t Data Not Found \n\n";
+		}
+		else
+		{
+			cout << "\n\t\t Data Successfully Deleted \n\n";
+			length--;
+		}
+	}
+}
+
+void Node::sortData(int& length)
+{
+	if (start == NULL)
+	{
+		cout << "\n\t\t!! No Data Saved !! \n\n ";
+	}
+	else
+	{
+		int tempData;
+		Node* temp = start;
+		Node* temp1;
+
+		while (temp->rptr != NULL)
+		{
+			temp1 = temp->rptr;
+			while (temp1 != NULL)
+			{
+				if (temp->data > temp1->data)
+				{
+					tempData = temp->data;
+					temp->data = temp1->data;
+					temp1->data = tempData;
+					temp1 = temp1->rptr;
+				}
+				else
+				{
+					temp1 = temp1->rptr;
+				}
+			}
+			temp = temp->rptr;
+		}
+		cout << "\n\t\t Data Successfully Sorted \n\n";
+	}
+}
+
+
+void Node::mainmenu()
+{
+	int choice = 0, length = 0, check = 0;
+	while (choice != 7)
+	{
+		system("cls");
+		cout << "\n\t\t\t\t\t----- Welcome to MainMenu -----\n" << endl;
+		cout << "\t\t\t\t--- Choose the function you want to perform ---\n" << endl;
+		cout << "\t\t1. Create New Linked List & Add Data in it\n" << endl;
+		cout << "\t\t2. Display Data\n" << endl;
+		cout << "\t\t3. Insert a new Data\n" << endl;
+		cout << "\t\t4. Search Particular Data\n" << endl;
+		cout << "\t\t5. Delete Particular Data\n" << endl;
+		cout << "\t\t6. Sort Data\n" << endl;
+		cout << "\t\t7. Exit \n" << endl;
+		cout << "\t\t Enter Your Choice :: ";
+		cin >> choice;
+		switch (choice)
+		{
+		case 1:
+			system("cls");
+			cout << "\n\t\t How Many Numbers You Want to Add :: ";
+			cin >> length;
+			if (length < 0)
+			{
+				cout << "\n\t\t Number Must be greater then 0 \n\n ";
+				system("pause");
+			}
+			else
+			{
+				start = end = NULL;
+				for (int i = 1; i <= length; i++)
+				{
+					cout << "\n\t\t Element No " << i  << " :: ";
+					create();
+				}
+				cout << "\n\t\t Data Successfully Added \n\n";
+				system("pause");
+			}
+			break;
+		case 2:
+			system("cls");
+			check = 0;
+			while (check != 1 && check != 2)
+			{
+				cout << "\n\t\tHow you want to Display Data\n\n ";
+				cout << "\t\t Press 1 or 2\n\n ";
+				cout << "\t\t1. Start to End\n\n";
+				cout << "\t\t2. End to Start\n\n";
+				cout << "\t\t Enter Your Choice :: ";
+				cin >> check;
+			}
+			display(check, length);
+			system("pause");
+			break;
+		case 3:
+			system("cls");
+			insert(length);
+			system("pause");
+			break;
+		case 4:
+			system("cls");
+			searchByData();
+			system("pause");
+			break;
+		case 5:
+			system("cls");
+			cout << "\n\t\tHow you want to delete Data\n\n ";
+			cout << "\t\t Press 1 or 2\n\n ";
+			cout << "\t\t1. Delete by position\n\n";
+			cout << "\t\t2. Delete by data\n\n";
+			cout << "\t\t Enter Your Choice :: ";
+			cin >> choice;
+			switch (choice)
+			{
+			case 1:
+				deleteByPos(length);
+				break;
+			case 2:
+				deleteByData(length);
+				break;
+			}
+			system("pause");
+			break;
+		case 6:
+
+			system("cls");
+			sortData(length);
+			system("pause");
+			break;
+		}
+	}
+}
